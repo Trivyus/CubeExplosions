@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Renderer))]
@@ -19,15 +17,13 @@ public class Cube : MonoBehaviour
 
     public float ExplosionForce => _explosionForce;
     public float ExplosionRadius => _explosionRadius;
+    public Rigidbody Rigidbody => _rigidbody;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _colorChanger.SetRandomColor(GetComponent<Renderer>());
     }
-
-    public Rigidbody ReturnRigibody =>
-        _rigidbody;
 
     public bool CanSplitUp()
     {
