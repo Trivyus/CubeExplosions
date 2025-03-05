@@ -5,6 +5,7 @@ public class Clicker : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private Spawner _spawner;
 
+    private Spreader _spreader = new Spreader();
     private Exploder _exploder = new Exploder();
 
     private void Update()
@@ -20,11 +21,9 @@ public class Clicker : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
             if (Physics.Raycast(ray, out hit) && hit.transform.TryGetComponent(out Cube cube))
-            {
                 if (cube.CanSplitUp())
-                {
-                    _exploder.Explode(_spawner.Spawn(cube), cube.transform.position);
-                }
-            }
+                    _spreader.Scatter(_spawner.Spawn(cube), cube.transform.position);
+                else 
+                    _exploder.Explode(cube, cube.transform.position);
     }
 }

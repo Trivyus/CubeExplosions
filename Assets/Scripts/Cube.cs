@@ -4,38 +4,43 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Cube : MonoBehaviour
 {
-    [SerializeField] private float _explosionForce = 300;
-    [SerializeField] private float _explosionRadius = 650;
+    [field: SerializeField] public float ScatterForce { get; private set; } = 300;
+    [field: SerializeField] public float ScatterRadius { get; private set; } = 650;
+    [field: SerializeField] public float ExplosionForce { get; private set; } = 150;
+    [field: SerializeField] public float ExplosionRadius { get; private set; } = 350;
 
-    private Rigidbody _rigidbody;
     private ColorChanger _colorChanger = new ColorChanger();
 
     private int _spawnChance = 100;
     private int _maxSpawnChance = 100;
     private int _spawnChanceLowering = 2;
     private int _scaleLowering = 2;
+    private int _explosionForceIncrease = 2;
+    private int _explosionRadiusIncrease = 2;
 
-    public float ExplosionForce => _explosionForce;
-    public float ExplosionRadius => _explosionRadius;
-    public Rigidbody Rigidbody => _rigidbody;
+    public Rigidbody Rigidbody {  get; private set; }
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        Rigidbody = GetComponent<Rigidbody>();
         _colorChanger.SetRandomColor(GetComponent<Renderer>());
     }
+
+    public void Destroy() => Destroy(gameObject);
 
     public bool CanSplitUp()
     {
         return Random.Range(0, _maxSpawnChance + 1) <= _spawnChance;
     }
 
-    public void ReduceParameters()
+    public void ChangeParameters()
     {
         Vector3 scale = transform.localScale;
 
         _spawnChance /= _spawnChanceLowering;
         scale /= _scaleLowering;
         transform.localScale = scale;
+        ExplosionForce *= _explosionForceIncrease;
+        ExplosionRadius *= _explosionRadiusIncrease;
     }
 }

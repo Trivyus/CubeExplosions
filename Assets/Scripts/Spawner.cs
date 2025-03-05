@@ -9,14 +9,14 @@ public class Spawner : MonoBehaviour
     {
         int count = Random.Range(_minCount, _maxCount + 1);
         Vector3 cubePosition = cube.transform.position;
-        Destroy(cube.gameObject);
+        cube.Destroy();
 
         Cube[] cubes = new Cube[count];
 
         for (int i = 0; i < count; i++)
         {
             cubes[i] = Instantiate(cube, GetRandomPosition(cubePosition), Quaternion.identity);
-            cubes[i].ReduceParameters();
+            cubes[i].ChangeParameters();
         }
 
         return cubes;
